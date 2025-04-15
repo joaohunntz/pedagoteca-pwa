@@ -30,6 +30,10 @@ export default function App() {
     }
   }
 
+  const handleEntrarAgora = () => {
+    window.location.href = 'https://pedagoteca.site'
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -58,7 +62,7 @@ export default function App() {
       </h1>
 
       <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
-        Toque no botão abaixo para instalar a Pedagoteca no seu dispositivo.
+        Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
       </p>
 
       {installPrompt && !installed && (
@@ -69,12 +73,25 @@ export default function App() {
           fontSize: '16px',
           borderRadius: '12px',
           border: 'none',
+          marginBottom: '12px',
           boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
           cursor: 'pointer'
         }}>
           📲 Instalar Aplicativo
         </button>
       )}
+
+      <button onClick={handleEntrarAgora} style={{
+        backgroundColor: '#f1f5f9',
+        color: '#1e293b',
+        padding: '12px 24px',
+        fontSize: '16px',
+        borderRadius: '12px',
+        border: '1px solid #cbd5e1',
+        cursor: 'pointer'
+      }}>
+        Entrar agora
+      </button>
     </div>
   )
 }
