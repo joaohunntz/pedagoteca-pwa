@@ -30,9 +30,11 @@ export default function App() {
   }
 
   const handleEntrarAgora = () => {
-    // 🔔 Dispara o prompt de permissão do OneSignal
-    if (window?.OneSignal?.showSlidedownPrompt) {
+    // ✅ Verifica se OneSignal está carregado corretamente
+    if (window?.OneSignal && typeof window.OneSignal.showSlidedownPrompt === 'function') {
       window.OneSignal.showSlidedownPrompt()
+    } else {
+      console.warn('OneSignal ainda não está pronto')
     }
 
     // ⏱️ Aguarda 2 segundos e redireciona para o Base44
