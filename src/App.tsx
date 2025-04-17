@@ -12,7 +12,6 @@ export default function App() {
 
     const installedHandler = () => {
       setInstalled(true)
-      window.location.href = 'https://pedagoteca.site'
     }
 
     window.addEventListener('beforeinstallprompt', beforeInstallHandler)
@@ -31,7 +30,15 @@ export default function App() {
   }
 
   const handleEntrarAgora = () => {
-    window.location.href = 'https://pedagoteca.site'
+    // 🔔 Dispara o prompt de permissão do OneSignal
+    if (window?.OneSignal?.showSlidedownPrompt) {
+      window.OneSignal.showSlidedownPrompt()
+    }
+
+    // ⏱️ Aguarda 2 segundos e redireciona para o Base44
+    setTimeout(() => {
+      window.location.href = 'https://pedagoteca.site'
+    }, 2000)
   }
 
   return (

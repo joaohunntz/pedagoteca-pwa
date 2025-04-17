@@ -8,6 +8,26 @@
     <meta name="theme-color" content="#3b82f6" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pedagoteca</title>
+
+    <!-- OneSignal SDK (v16) -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function (OneSignal) {
+        await OneSignal.init({
+          appId: "a0172c5d-a917-43a7-a5f7-ce8a7a60aa90",
+          autoPrompt: false, // ✅ impede o prompt automático
+          notifyButton: {
+            enable: false     // ✅ sem sininho flutuante
+          }
+        });
+
+        // Função global que pode ser chamada no botão "Entrar Agora"
+        window.solicitarPermissaoNotificacao = function () {
+          OneSignal.showSlidedownPrompt();
+        };
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
