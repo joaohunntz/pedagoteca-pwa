@@ -6,11 +6,9 @@ export default function App() {
   const [isIphone, setIsIphone] = useState(false)
 
   useEffect(() => {
-    // Detecta se é iPhone
     const userAgent = window.navigator.userAgent.toLowerCase()
     setIsIphone(/iphone|ipad|ipod/.test(userAgent))
 
-    // Detecta se o app já está instalado (PWA standalone)
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
       (window.navigator as any).standalone === true
@@ -80,9 +78,23 @@ export default function App() {
         Uhuul! Tudo certo. Vamos começar?
       </h1>
 
-      <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
-        Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
-      </p>
+      {/* 🔁 Mensagem dinâmica */}
+      {installed ? (
+        <div style={{ marginBottom: 30, maxWidth: 300, color: '#16a34a', textAlign: 'center' }}>
+          <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
+            ✅ Aplicativo instalado com sucesso!
+          </p>
+          <p style={{ color: '#475569' }}>
+            Procure pelo ícone da <strong>Pedagoteca</strong>{' '}
+            <img src="/icon-192.png" alt="Ícone" style={{ width: 20, verticalAlign: 'middle' }} /> 
+            na sua tela inicial para acessar.
+          </p>
+        </div>
+      ) : (
+        <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
+          Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
+        </p>
+      )}
 
       {/* Mostrar botão de instalação somente se não for iPhone e app ainda não instalado */}
       {!isIphone && installPrompt && !installed && (
