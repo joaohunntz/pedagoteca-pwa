@@ -17,7 +17,10 @@ export default function App() {
       setInstalled(isStandalone)
     }
 
-    verificarSeInstalado()
+    // Força verificação com pequeno delay
+    setTimeout(() => {
+      verificarSeInstalado()
+    }, 500)
 
     const beforeInstallHandler = (e: any) => {
       e.preventDefault()
@@ -53,10 +56,6 @@ export default function App() {
     setTimeout(() => {
       window.location.href = 'https://pedagoteca.site'
     }, 2000)
-  }
-
-  const handleAbrirApp = () => {
-    window.location.href = 'https://pedagoteca.site'
   }
 
   return (
@@ -96,20 +95,6 @@ export default function App() {
             <img src="/icon-192.png" alt="Ícone" style={{ width: 20, verticalAlign: 'middle' }} /> 
             na sua tela inicial para acessar.
           </p>
-
-          <button onClick={handleAbrirApp} style={{
-            marginTop: 20,
-            backgroundColor: '#3b82f6',
-            color: 'white',
-            padding: '12px 24px',
-            fontSize: '16px',
-            borderRadius: '12px',
-            border: 'none',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-            cursor: 'pointer'
-          }}>
-            🚀 Abrir Aplicativo
-          </button>
         </div>
       ) : (
         <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
@@ -117,6 +102,7 @@ export default function App() {
         </p>
       )}
 
+      {/* Mostrar botão de instalação se não for iPhone e ainda não instalado */}
       {!isIphone && installPrompt && !installed && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
@@ -133,7 +119,8 @@ export default function App() {
         </button>
       )}
 
-      {(isIphone || installed) && (
+      {/* Mostrar botão Entrar agora sempre que fizer sentido */}
+      {(isIphone || installed || (!installed && installPrompt)) && (
         <button onClick={handleEntrarAgora} style={{
           backgroundColor: '#f1f5f9',
           color: '#1e293b',
@@ -142,7 +129,7 @@ export default function App() {
           borderRadius: '12px',
           border: '1px solid #cbd5e1',
           cursor: 'pointer',
-          marginTop: installed ? 12 : 0
+          marginTop: 12
         }}>
           Entrar agora
         </button>
