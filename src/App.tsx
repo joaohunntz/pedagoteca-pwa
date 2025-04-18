@@ -19,7 +19,7 @@ export default function App() {
       setInstalled(isStandalone)
     }
 
-    verificarSeInstalado() // roda ao carregar
+    verificarSeInstalado()
 
     const beforeInstallHandler = (e: any) => {
       e.preventDefault()
@@ -32,7 +32,7 @@ export default function App() {
 
     window.addEventListener('beforeinstallprompt', beforeInstallHandler)
     window.addEventListener('appinstalled', installedHandler)
-    window.addEventListener('focus', verificarSeInstalado) // checa ao voltar ao app
+    window.addEventListener('focus', verificarSeInstalado)
 
     return () => {
       window.removeEventListener('beforeinstallprompt', beforeInstallHandler)
@@ -42,7 +42,10 @@ export default function App() {
   }, [])
 
   const handleInstall = () => {
-    if (installPrompt) {
+    if (isIphone) {
+      // Redireciona para tutorial se for iPhone
+      window.location.href = '/tutorial.html'
+    } else if (installPrompt) {
       installPrompt.prompt()
     }
   }
@@ -88,7 +91,8 @@ export default function App() {
         Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
       </p>
 
-      {!isIphone && installPrompt && !installed && (
+      {/* Instalar: Android com prompt OU iPhone redirecionando pro tutorial */}
+      {(!installed && (installPrompt || isIphone)) && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
           color: 'white',
@@ -104,6 +108,7 @@ export default function App() {
         </button>
       )}
 
+      {/* Entrar: iPhone ou já instalado */}
       {(isIphone || installed) && (
         <button onClick={handleEntrarAgora} style={{
           backgroundColor: '#f1f5f9',
