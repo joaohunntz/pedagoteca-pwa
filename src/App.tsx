@@ -4,13 +4,14 @@ export default function App() {
   const [installPrompt, setInstallPrompt] = useState<any>(null)
   const [installed, setInstalled] = useState(false)
   const [isIphone, setIsIphone] = useState(false)
+  const [showGif, setShowGif] = useState(false)
 
   useEffect(() => {
     // Detecta se é iPhone
     const userAgent = window.navigator.userAgent.toLowerCase()
     setIsIphone(/iphone|ipad|ipod/.test(userAgent))
 
-    // Checa se está rodando como PWA instalado
+    // Checa se o app está rodando como instalado (PWA standalone)
     const verificarSeInstalado = () => {
       const isStandalone =
         window.matchMedia('(display-mode: standalone)').matches ||
@@ -43,8 +44,7 @@ export default function App() {
 
   const handleInstall = () => {
     if (isIphone) {
-      // Redireciona para tutorial se for iPhone
-      window.location.href = '/tutorial.html'
+      setShowGif(true)
     } else if (installPrompt) {
       installPrompt.prompt()
     }
@@ -91,8 +91,8 @@ export default function App() {
         Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
       </p>
 
-      {/* Instalar: Android com prompt OU iPhone redirecionando pro tutorial */}
-      {(!installed && (installPrompt || isIphone)) && (
+      {/* Mostrar botão de instalação se ainda não estiver instalado */}
+      {!installed && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
           color: 'white',
@@ -108,8 +108,27 @@ export default function App() {
         </button>
       )}
 
-      {/* Entrar: iPhone ou já instalado */}
-      {(isIphone || installed) && (
+      {/* Mostrar GIF apenas se for iPhone e usuário clicou para instalar */}
+      {isIphone && showGif && (
+        <div style={{ maxWidth: 320 }}>
+          <p style={{ fontSize: '14px', color: '#475569' }}>
+            Toque em <strong>Compartilhar</strong> e depois em <strong>“Adicionar à Tela de Início”</strong>
+          </p>
+          <img
+            src="/tutorial-ios.gif"
+            alt="Tutorial iOS"
+            style={{
+              width: '100%',
+              borderRadius: '12px',
+              boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
+              marginBottom: '20px'
+            }}
+          />
+        </div>
+      )}
+
+      {/* Mostrar botão Entrar Agora apenas após o app estar instalado */}
+      {installed && (
         <button onClick={handleEntrarAgora} style={{
           backgroundColor: '#f1f5f9',
           color: '#1e293b',
