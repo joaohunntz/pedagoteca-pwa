@@ -56,7 +56,7 @@ export default function App() {
     }
 
     setTimeout(() => {
-      window.location.href = 'https://pedagoteca.site'
+      window.location.href = 'https://app--pedagoteca-8d7e4e0c.base44.app/'
     }, 2000)
   }
 
