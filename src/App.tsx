@@ -10,14 +10,16 @@ export default function App() {
     const userAgent = window.navigator.userAgent.toLowerCase()
     setIsIphone(/iphone|ipad|ipod/.test(userAgent))
 
-    // Detecta se o app já está instalado (PWA standalone)
-    const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as any).standalone === true
+    // Checa se está rodando como PWA instalado
+    const verificarSeInstalado = () => {
+      const isStandalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        (window.navigator as any).standalone === true
 
-    if (isStandalone) {
-      setInstalled(true)
+      setInstalled(isStandalone)
     }
+
+    verificarSeInstalado() // roda ao carregar
 
     const beforeInstallHandler = (e: any) => {
       e.preventDefault()
@@ -30,10 +32,12 @@ export default function App() {
 
     window.addEventListener('beforeinstallprompt', beforeInstallHandler)
     window.addEventListener('appinstalled', installedHandler)
+    window.addEventListener('focus', verificarSeInstalado) // checa ao voltar ao app
 
     return () => {
       window.removeEventListener('beforeinstallprompt', beforeInstallHandler)
       window.removeEventListener('appinstalled', installedHandler)
+      window.removeEventListener('focus', verificarSeInstalado)
     }
   }, [])
 
@@ -84,7 +88,6 @@ export default function App() {
         Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
       </p>
 
-      {/* Mostrar botão de instalação somente se não for iPhone e app ainda não instalado */}
       {!isIphone && installPrompt && !installed && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
@@ -101,7 +104,6 @@ export default function App() {
         </button>
       )}
 
-      {/* Mostrar botão Entrar agora se for iPhone OU já instalado */}
       {(isIphone || installed) && (
         <button onClick={handleEntrarAgora} style={{
           backgroundColor: '#f1f5f9',
