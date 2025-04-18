@@ -3,8 +3,22 @@ import { useEffect, useState } from 'react'
 export default function App() {
   const [installPrompt, setInstallPrompt] = useState<any>(null)
   const [installed, setInstalled] = useState(false)
+  const [isIphone, setIsIphone] = useState(false)
 
   useEffect(() => {
+    // Detecta se é iPhone
+    const userAgent = window.navigator.userAgent.toLowerCase()
+    setIsIphone(/iphone|ipad|ipod/.test(userAgent))
+
+    // Detecta se o app já está instalado (PWA standalone)
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone === true
+
+    if (isStandalone) {
+      setInstalled(true)
+    }
+
     const beforeInstallHandler = (e: any) => {
       e.preventDefault()
       setInstallPrompt(e)
@@ -30,14 +44,10 @@ export default function App() {
   }
 
   const handleEntrarAgora = () => {
-    // ✅ Verifica se OneSignal está carregado corretamente
     if (window?.OneSignal && typeof window.OneSignal.showSlidedownPrompt === 'function') {
       window.OneSignal.showSlidedownPrompt()
-    } else {
-      console.warn('OneSignal ainda não está pronto')
     }
 
-    // ⏱️ Aguarda 2 segundos e redireciona para o Base44
     setTimeout(() => {
       window.location.href = 'https://pedagoteca.site'
     }, 2000)
@@ -74,7 +84,8 @@ export default function App() {
         Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
       </p>
 
-      {installPrompt && !installed && (
+      {/* Mostrar botão de instalação somente se não for iPhone e app ainda não instalado */}
+      {!isIphone && installPrompt && !installed && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
           color: 'white',
@@ -90,17 +101,20 @@ export default function App() {
         </button>
       )}
 
-      <button onClick={handleEntrarAgora} style={{
-        backgroundColor: '#f1f5f9',
-        color: '#1e293b',
-        padding: '12px 24px',
-        fontSize: '16px',
-        borderRadius: '12px',
-        border: '1px solid #cbd5e1',
-        cursor: 'pointer'
-      }}>
-        Entrar agora
-      </button>
+      {/* Mostrar botão Entrar agora se for iPhone OU já instalado */}
+      {(isIphone || installed) && (
+        <button onClick={handleEntrarAgora} style={{
+          backgroundColor: '#f1f5f9',
+          color: '#1e293b',
+          padding: '12px 24px',
+          fontSize: '16px',
+          borderRadius: '12px',
+          border: '1px solid #cbd5e1',
+          cursor: 'pointer'
+        }}>
+          Entrar agora
+        </button>
+      )}
     </div>
   )
 }
