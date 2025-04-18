@@ -6,21 +6,18 @@ export default function App() {
   const [isIphone, setIsIphone] = useState(false)
 
   useEffect(() => {
+    // Detecta se é iPhone
     const userAgent = window.navigator.userAgent.toLowerCase()
     setIsIphone(/iphone|ipad|ipod/.test(userAgent))
 
-    const verificarSeInstalado = () => {
-      const isStandalone =
-        window.matchMedia('(display-mode: standalone)').matches ||
-        (window.navigator as any).standalone === true
+    // Detecta se o app já está instalado (PWA standalone)
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone === true
 
-      setInstalled(isStandalone)
+    if (isStandalone) {
+      setInstalled(true)
     }
-
-    // Força verificação com pequeno delay
-    setTimeout(() => {
-      verificarSeInstalado()
-    }, 500)
 
     const beforeInstallHandler = (e: any) => {
       e.preventDefault()
@@ -33,12 +30,10 @@ export default function App() {
 
     window.addEventListener('beforeinstallprompt', beforeInstallHandler)
     window.addEventListener('appinstalled', installedHandler)
-    window.addEventListener('focus', verificarSeInstalado)
 
     return () => {
       window.removeEventListener('beforeinstallprompt', beforeInstallHandler)
       window.removeEventListener('appinstalled', installedHandler)
-      window.removeEventListener('focus', verificarSeInstalado)
     }
   }, [])
 
@@ -85,24 +80,11 @@ export default function App() {
         Uhuul! Tudo certo. Vamos começar?
       </h1>
 
-      {installed ? (
-        <div style={{ marginBottom: 30, maxWidth: 320, textAlign: 'center' }}>
-          <p style={{ fontWeight: 'bold', fontSize: '18px', color: '#16a34a' }}>
-            ✅ Aplicativo instalado com sucesso!
-          </p>
-          <p style={{ color: '#475569' }}>
-            Procure pelo ícone da <strong>Pedagoteca</strong>{' '}
-            <img src="/icon-192.png" alt="Ícone" style={{ width: 20, verticalAlign: 'middle' }} /> 
-            na sua tela inicial para acessar.
-          </p>
-        </div>
-      ) : (
-        <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
-          Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
-        </p>
-      )}
+      <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
+        Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
+      </p>
 
-      {/* Mostrar botão de instalação se não for iPhone e ainda não instalado */}
+      {/* Mostrar botão de instalação somente se não for iPhone e app ainda não instalado */}
       {!isIphone && installPrompt && !installed && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
@@ -119,8 +101,8 @@ export default function App() {
         </button>
       )}
 
-      {/* Mostrar botão Entrar agora sempre que fizer sentido */}
-      {(isIphone || installed || (!installed && installPrompt)) && (
+      {/* Mostrar botão Entrar agora se for iPhone OU já instalado */}
+      {(isIphone || installed) && (
         <button onClick={handleEntrarAgora} style={{
           backgroundColor: '#f1f5f9',
           color: '#1e293b',
@@ -128,8 +110,7 @@ export default function App() {
           fontSize: '16px',
           borderRadius: '12px',
           border: '1px solid #cbd5e1',
-          cursor: 'pointer',
-          marginTop: 12
+          cursor: 'pointer'
         }}>
           Entrar agora
         </button>
