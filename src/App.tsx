@@ -51,6 +51,10 @@ export default function App() {
     }, 2000)
   }
 
+  const handleAbrirApp = () => {
+    window.location.href = 'https://pedagoteca.site'
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -80,8 +84,8 @@ export default function App() {
 
       {/* 🔁 Mensagem dinâmica */}
       {installed ? (
-        <div style={{ marginBottom: 30, maxWidth: 300, color: '#16a34a', textAlign: 'center' }}>
-          <p style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>
+        <div style={{ marginBottom: 30, maxWidth: 320, textAlign: 'center' }}>
+          <p style={{ fontWeight: 'bold', fontSize: '18px', color: '#16a34a' }}>
             ✅ Aplicativo instalado com sucesso!
           </p>
           <p style={{ color: '#475569' }}>
@@ -89,6 +93,20 @@ export default function App() {
             <img src="/icon-192.png" alt="Ícone" style={{ width: 20, verticalAlign: 'middle' }} /> 
             na sua tela inicial para acessar.
           </p>
+
+          <button onClick={handleAbrirApp} style={{
+            marginTop: 20,
+            backgroundColor: '#3b82f6',
+            color: 'white',
+            padding: '12px 24px',
+            fontSize: '16px',
+            borderRadius: '12px',
+            border: 'none',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+            cursor: 'pointer'
+          }}>
+            🚀 Abrir Aplicativo
+          </button>
         </div>
       ) : (
         <p style={{ color: '#475569', marginBottom: 30, maxWidth: 300 }}>
@@ -122,7 +140,8 @@ export default function App() {
           fontSize: '16px',
           borderRadius: '12px',
           border: '1px solid #cbd5e1',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          marginTop: installed ? 12 : 0
         }}>
           Entrar agora
         </button>
