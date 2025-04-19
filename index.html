@@ -9,22 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pedagoteca</title>
 
-    <!-- OneSignal SDK com idioma forçado -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <!-- WonderPush SDK -->
     <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function (OneSignal) {
-        await OneSignal.init({
-          appId: "a0172c5d-a917-43a7-a5f7-ce8a7a60aa90",
-          promptOptions: {
-            slidedown: {
-              enabled: true,
-              forceLocale: 'pt' // força português BR
-            }
-          }
-        });
-      });
+      window.WonderPush = window.WonderPush || [];
+      WonderPush.push(["init", {
+        webKey: "17c50c76bcad2e4d82e30df945000433ab2fac8e75715bd004a48984c13d2cc3"
+      }]);
     </script>
+    <script async src="https://cdn.by.wonderpush.com/sdk/1.1/wonderpush.min.js"></script>
   </head>
   <body>
     <div id="root"></div>

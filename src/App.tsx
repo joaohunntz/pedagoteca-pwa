@@ -7,11 +7,9 @@ export default function App() {
   const [showGif, setShowGif] = useState(false)
 
   useEffect(() => {
-    // Detecta se é iPhone
     const userAgent = window.navigator.userAgent.toLowerCase()
     setIsIphone(/iphone|ipad|ipod/.test(userAgent))
 
-    // Checa se o app está rodando como instalado (PWA standalone)
     const verificarSeInstalado = () => {
       const isStandalone =
         window.matchMedia('(display-mode: standalone)').matches ||
@@ -51,10 +49,6 @@ export default function App() {
   }
 
   const handleEntrarAgora = () => {
-    if (window?.OneSignal && typeof window.OneSignal.showSlidedownPrompt === 'function') {
-      window.OneSignal.showSlidedownPrompt()
-    }
-
     setTimeout(() => {
       window.location.href = 'https://app--pedagoteca-9b521c1a.base44.app/'
     }, 2000)
@@ -91,7 +85,6 @@ export default function App() {
         Toque no botão abaixo para instalar o aplicativo ou continue agora mesmo.
       </p>
 
-      {/* Mostrar botão de instalação se ainda não estiver instalado */}
       {!installed && (
         <button onClick={handleInstall} style={{
           backgroundColor: '#3b82f6',
@@ -108,7 +101,6 @@ export default function App() {
         </button>
       )}
 
-      {/* Mostrar GIF apenas se for iPhone e usuário clicou para instalar */}
       {isIphone && showGif && (
         <div style={{ maxWidth: 320 }}>
           <p style={{ fontSize: '14px', color: '#475569' }}>
@@ -127,7 +119,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Mostrar botão Entrar Agora apenas após o app estar instalado */}
       {installed && (
         <button onClick={handleEntrarAgora} style={{
           backgroundColor: '#f1f5f9',
