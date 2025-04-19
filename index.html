@@ -30,14 +30,22 @@
     </button>
 
     <script>
-      // Espera o SDK carregar para mostrar o botão
-      window.addEventListener("wonderpush-ready", function () {
-        const btn = document.getElementById('notifyBtn');
-        btn.style.display = 'block';
-        btn.addEventListener('click', function () {
-          WonderPush.subscribeToNotifications();
-        });
-      });
+      const btn = document.getElementById('notifyBtn');
+      let tentativas = 0;
+
+      const verificarWonderPush = setInterval(() => {
+        tentativas++;
+
+        if (typeof WonderPush !== 'undefined' && typeof WonderPush.subscribeToNotifications === 'function') {
+          btn.style.display = 'block';
+          btn.addEventListener('click', () => {
+            WonderPush.subscribeToNotifications();
+          });
+          clearInterval(verificarWonderPush);
+        }
+
+        if (tentativas > 10) clearInterval(verificarWonderPush); // tenta por no máx. 5 segundos
+      }, 500);
     </script>
 
     <!-- Importa seu app -->
