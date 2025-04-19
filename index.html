@@ -24,18 +24,19 @@
     <!-- Botão para ativar notificações -->
     <button 
       id="notifyBtn"
-      style="position:fixed;bottom:20px;right:20px;padding:10px 16px;font-size:16px;background-color:#3b82f6;color:white;border:none;border-radius:8px;z-index:9999;cursor:pointer;"
+      style="display:none;position:fixed;bottom:20px;right:20px;padding:10px 16px;font-size:16px;background-color:#3b82f6;color:white;border:none;border-radius:8px;z-index:9999;cursor:pointer;"
     >
       🔔 Ativar Notificações
     </button>
 
     <script>
-      document.getElementById('notifyBtn').addEventListener('click', function () {
-        if (typeof WonderPush !== 'undefined' && typeof WonderPush.subscribeToNotifications === 'function') {
+      // Espera o SDK carregar para mostrar o botão
+      window.addEventListener("wonderpush-ready", function () {
+        const btn = document.getElementById('notifyBtn');
+        btn.style.display = 'block';
+        btn.addEventListener('click', function () {
           WonderPush.subscribeToNotifications();
-        } else {
-          alert("As notificações ainda estão carregando. Tente novamente em alguns segundos.");
-        }
+        });
       });
     </script>
 
