@@ -22,13 +22,19 @@
     <div id="root"></div>
 
     <!-- Botão para ativar notificações -->
-    <button 
-      onclick="WonderPush.subscribeToNotifications()" 
-      style="position:fixed;bottom:20px;right:20px;padding:10px 16px;font-size:16px;background-color:#3b82f6;color:white;border:none;border-radius:8px;z-index:9999;cursor:pointer;"
-    >
-      🔔 Ativar Notificações
-    </button>
+<button 
+id="notifyBtn"
+style="position:fixed;bottom:20px;right:20px;padding:10px 16px;font-size:16px;background-color:#3b82f6;color:white;border:none;border-radius:8px;z-index:9999;cursor:pointer;"
+>
+🔔 Ativar Notificações
+</button>
 
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<script>
+document.getElementById('notifyBtn').addEventListener('click', function () {
+  if (typeof WonderPush !== 'undefined' && typeof WonderPush.subscribeToNotifications === 'function') {
+    WonderPush.subscribeToNotifications();
+  } else {
+    alert("As notificações ainda estão carregando. Tente novamente em alguns segundos.");
+  }
+});
+</script>
