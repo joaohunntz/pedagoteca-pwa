@@ -20,6 +20,15 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Botão para ativar notificações -->
+    <button 
+      onclick="WonderPush.subscribeToNotifications()" 
+      style="position:fixed;bottom:20px;right:20px;padding:10px 16px;font-size:16px;background-color:#3b82f6;color:white;border:none;border-radius:8px;z-index:9999;cursor:pointer;"
+    >
+      🔔 Ativar Notificações
+    </button>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
