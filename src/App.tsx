@@ -40,6 +40,24 @@ export default function App() {
     }
   }, [])
 
+  // 👇 INICIALIZAÇÃO SEGURA DO ONESIGNAL
+  useEffect(() => {
+    if (!(window as any).OneSignalInitialized) {
+      (window as any).OneSignalInitialized = true
+
+      window.OneSignalDeferred = window.OneSignalDeferred || []
+      window.OneSignalDeferred.push(async function (OneSignal: any) {
+        await OneSignal.init({
+          appId: "09039362-ba90-4093-aeed-ed2c9a9594a1",
+          serviceWorkerPath: "/OneSignalSDKWorker.js",
+        })
+
+        const enabled = await OneSignal.isPushNotificationsEnabled()
+        console.log("Notificações ativas?", enabled)
+      })
+    }
+  }, [])
+
   const handleInstall = () => {
     if (isIphone) {
       setShowGif(true)

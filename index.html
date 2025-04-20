@@ -11,15 +11,6 @@
 
     <!-- OneSignal SDK v16 -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "09039362-ba90-4093-aeed-ed2c9a9594a1",
-          serviceWorkerPath: "/OneSignalSDKWorker.js" // 👈 ESSENCIAL para escopo correto
-        });
-      });
-    </script>
   </head>
   <body>
     <div id="root"></div>
