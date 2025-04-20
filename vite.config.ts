@@ -3,29 +3,32 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/', // Garante que os caminhos funcionem corretamente no PWA/iOS
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['icon-192.png', 'icon-512.png'], // garante que os ícones vão para o build
       manifest: {
         name: 'Pedagoteca',
         short_name: 'Pedagoteca',
-        start_url: '/',
+        start_url: '/?source=pwa', // ESSENCIAL para o iOS funcionar corretamente
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#3b82f6',
+        orientation: 'portrait',
         icons: [
           {
             src: '/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'any'
+            purpose: 'any maskable'
           },
           {
             src: '/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any'
+            purpose: 'any maskable'
           }
         ]
       }
