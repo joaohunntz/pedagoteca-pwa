@@ -6,6 +6,7 @@ export default function App() {
   const [isIphone, setIsIphone] = useState(false)
   const [showGif, setShowGif] = useState(false)
   const [pushStatus, setPushStatus] = useState<string | null>(null)
+  const [canRequestPermission, setCanRequestPermission] = useState(false)
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase()
@@ -53,6 +54,10 @@ export default function App() {
           serviceWorkerPath: "/OneSignalSDKWorker.js",
         })
       })
+    }
+
+    if (Notification.permission === "default") {
+      setCanRequestPermission(true)
     }
   }, [])
 
@@ -175,6 +180,21 @@ export default function App() {
         <p style={{ marginTop: 10, color: '#1e293b', fontSize: '14px' }}>
           Status das notificações: {pushStatus}
         </p>
+      )}
+
+      {canRequestPermission && (
+        <button onClick={() => (window as any).OneSignal.showSlidedownPrompt()} style={{
+          marginTop: 16,
+          backgroundColor: '#f59e0b',
+          color: 'white',
+          padding: '10px 20px',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '16px'
+        }}>
+          🔔 Ativar Notificações
+        </button>
       )}
     </div>
   )
