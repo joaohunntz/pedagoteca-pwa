@@ -9,44 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pedagoteca</title>
 
-    <!-- WonderPush SDK -->
+    <!-- OneSignal SDK v16 -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
-      window.WonderPush = window.WonderPush || [];
-      WonderPush.push(["init", {
-        webKey: "17c50c76bcad2e4d82e30df945000433ab2fac8e75715bd004a48984c13d2cc3"
-      }]);
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "09039362-ba90-4093-aeed-ed2c9a9594a1",
+        });
+      });
     </script>
-    <script async src="https://cdn.by.wonderpush.com/sdk/1.1/wonderpush.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
-
-    <!-- Botão para ativar notificações -->
-    <button 
-      id="notifyBtn"
-      style="display:none;position:fixed;bottom:20px;right:20px;padding:10px 16px;font-size:16px;background-color:#3b82f6;color:white;border:none;border-radius:8px;z-index:9999;cursor:pointer;"
-    >
-      🔔 Ativar Notificações
-    </button>
-
-    <script>
-      const btn = document.getElementById('notifyBtn');
-      let tentativas = 0;
-
-      const verificarWonderPush = setInterval(() => {
-        tentativas++;
-
-        if (typeof WonderPush !== 'undefined' && typeof WonderPush.subscribeToNotifications === 'function') {
-          btn.style.display = 'block';
-          btn.addEventListener('click', () => {
-            WonderPush.subscribeToNotifications();
-          });
-          clearInterval(verificarWonderPush);
-        }
-
-        if (tentativas > 10) clearInterval(verificarWonderPush); // tenta por no máx. 5 segundos
-      }, 500);
-    </script>
 
     <!-- Importa seu app -->
     <script type="module" src="/src/main.tsx"></script>
