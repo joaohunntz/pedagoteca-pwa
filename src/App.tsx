@@ -41,20 +41,17 @@ export default function App() {
     }
   }, [])
 
-  // 👇 INICIALIZAÇÃO SEGURA DO ONESIGNAL
+  // 👇 INICIALIZAÇÃO DIRETA DO ONESIGNAL v15
   useEffect(() => {
     if (!(window as any).OneSignalInitialized) {
       (window as any).OneSignalInitialized = true
 
-      ;(window as any).OneSignalDeferred = (window as any).OneSignalDeferred || []
-      ;(window as any).OneSignalDeferred.push(async function (OneSignal: any) {
-        await OneSignal.init({
+      ;(window as any).OneSignal = (window as any).OneSignal || []
+      ;(window as any).OneSignal.push(function () {
+        (window as any).OneSignal.init({
           appId: "09039362-ba90-4093-aeed-ed2c9a9594a1",
           serviceWorkerPath: "/OneSignalSDKWorker.js",
         })
-
-        const enabled = await OneSignal.isPushNotificationsEnabled()
-        console.log("Notificações ativas?", enabled)
       })
     }
   }, [])
