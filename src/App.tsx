@@ -122,4 +122,34 @@ export default function App() {
       {isIphone && showGif && (
         <div style={{ maxWidth: 320 }}>
           <p style={{ fontSize: '14px', color: '#475569' }}>
-            Toque em <strong>Compartilhar</strong> e depois em <strong>“Adicionar à
+            Toque em <strong>Compartilhar</strong> e depois em <strong>“Adicionar à Tela de Início”</strong>
+          </p>
+          <img
+            src="/tutorial-ios.gif"
+            alt="Tutorial iOS"
+            style={{
+              width: '100%',
+              borderRadius: '12px',
+              boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
+              marginBottom: '20px'
+            }}
+          />
+        </div>
+      )}
+
+      {installed && (
+        <button onClick={handleEntrarAgora} style={{
+          backgroundColor: '#f1f5f9',
+          color: '#1e293b',
+          padding: '12px 24px',
+          fontSize: '16px',
+          borderRadius: '12px',
+          border: '1px solid #cbd5e1',
+          cursor: 'pointer'
+        }}>
+          Entrar agora
+        </button>
+      )}
+    </div>
+  )
+}
