@@ -5,8 +5,6 @@ export default function App() {
   const [installed, setInstalled] = useState(false)
   const [isIphone, setIsIphone] = useState(false)
   const [showGif, setShowGif] = useState(false)
-  const [pushStatus, setPushStatus] = useState<string | null>(null)
-  const [canRequestPermission, setCanRequestPermission] = useState(false)
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase()
@@ -41,34 +39,6 @@ export default function App() {
       window.removeEventListener('focus', verificarSeInstalado)
     }
   }, [])
-
-  // 👇 INICIALIZAÇÃO DIRETA DO ONESIGNAL v15
-  useEffect(() => {
-    if (!(window as any).OneSignalInitialized) {
-      (window as any).OneSignalInitialized = true
-
-      ;(window as any).OneSignal = (window as any).OneSignal || []
-      ;(window as any).OneSignal.push(function () {
-        (window as any).OneSignal.init({
-          appId: "09039362-ba90-4093-aeed-ed2c9a9594a1",
-          serviceWorkerPath: "/OneSignalSDKWorker.js",
-        })
-      })
-    }
-
-    if (Notification.permission === "default") {
-      setCanRequestPermission(true)
-    }
-  }, [])
-
-  const verificarNotificacoes = async () => {
-    if ((window as any).OneSignal?.isPushNotificationsEnabled) {
-      const enabled = await (window as any).OneSignal.isPushNotificationsEnabled()
-      setPushStatus(enabled ? '✅ Ativas' : '❌ Inativas')
-    } else {
-      setPushStatus('⚠️ SDK ainda carregando...')
-    }
-  }
 
   const handleInstall = () => {
     if (isIphone) {
@@ -162,40 +132,7 @@ export default function App() {
           Entrar agora
         </button>
       )}
-
-      <button onClick={verificarNotificacoes} style={{
-        marginTop: 20,
-        backgroundColor: '#10b981',
-        color: 'white',
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        fontSize: '16px'
-      }}>
-        Verificar Notificações
-      </button>
-
-      {pushStatus && (
-        <p style={{ marginTop: 10, color: '#1e293b', fontSize: '14px' }}>
-          Status das notificações: {pushStatus}
-        </p>
-      )}
-
-      {canRequestPermission && (
-        <button onClick={() => (window as any).OneSignal.showSlidedownPrompt()} style={{
-          marginTop: 16,
-          backgroundColor: '#f59e0b',
-          color: 'white',
-          padding: '10px 20px',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          fontSize: '16px'
-        }}>
-          🔔 Ativar Notificações
-        </button>
-      )}
     </div>
   )
 }
+
