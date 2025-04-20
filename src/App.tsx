@@ -5,6 +5,7 @@ export default function App() {
   const [installed, setInstalled] = useState(false)
   const [isIphone, setIsIphone] = useState(false)
   const [showGif, setShowGif] = useState(false)
+  const [pushStatus, setPushStatus] = useState<string | null>(null)
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase()
@@ -57,6 +58,15 @@ export default function App() {
       })
     }
   }, [])
+
+  const verificarNotificacoes = async () => {
+    if ((window as any).OneSignal?.isPushNotificationsEnabled) {
+      const enabled = await (window as any).OneSignal.isPushNotificationsEnabled()
+      setPushStatus(enabled ? '✅ Ativas' : '❌ Inativas')
+    } else {
+      setPushStatus('⚠️ SDK ainda carregando...')
+    }
+  }
 
   const handleInstall = () => {
     if (isIphone) {
@@ -149,6 +159,25 @@ export default function App() {
         }}>
           Entrar agora
         </button>
+      )}
+
+      <button onClick={verificarNotificacoes} style={{
+        marginTop: 20,
+        backgroundColor: '#10b981',
+        color: 'white',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        fontSize: '16px'
+      }}>
+        Verificar Notificações
+      </button>
+
+      {pushStatus && (
+        <p style={{ marginTop: 10, color: '#1e293b', fontSize: '14px' }}>
+          Status das notificações: {pushStatus}
+        </p>
       )}
     </div>
   )
