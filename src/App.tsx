@@ -178,6 +178,26 @@ export default function App() {
 >
   🔔 Ativar Notificações
 </button>
+<button
+  onClick={() => {
+    if ((window as any).OneSignal?.registerForPushNotifications) {
+      (window as any).OneSignal.registerForPushNotifications()
+    }
+  }}
+  style={{
+    marginTop: 20,
+    backgroundColor: '#f59e0b',
+    color: 'white',
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '16px'
+  }}
+>
+  🔁 Ativar notificações manualmente
+</button>
+
 
     </div>
   )
