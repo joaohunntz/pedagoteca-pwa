@@ -64,16 +64,9 @@ export default function App() {
   }
 
   const handleEntrarAgora = () => {
-    const OneSignal = (window as any).OneSignal
-    if (Notification.permission !== 'granted' && OneSignal?.registerForPushNotifications) {
-      OneSignal.registerForPushNotifications().finally(() => {
-        setTimeout(() => {
-          window.location.href = 'https://app--pedagoteca-9b521c1a.base44.app/'
-        }, 1000)
-      })
-    } else {
+    setTimeout(() => {
       window.location.href = 'https://app--pedagoteca-9b521c1a.base44.app/'
-    }
+    }, 2000)
   }
 
   return (
@@ -146,26 +139,55 @@ export default function App() {
 
       {installed && (
         <>
-          <p style={{ color: '#475569', maxWidth: 320, marginBottom: 16 }}>
+          <button
+            onClick={handleEntrarAgora}
+            style={{
+              backgroundColor: '#f1f5f9',
+              color: '#1e293b',
+              padding: '12px 24px',
+              fontSize: '16px',
+              borderRadius: '12px',
+              border: '1px solid #cbd5e1',
+              cursor: 'pointer',
+              marginBottom: '16px'
+            }}
+          >
+            Entrar agora
+          </button>
+
+          <p style={{ color: '#475569', maxWidth: 320 }}>
             Ative as Notificações clicando no botão abaixo e fique por dentro de todas as novidades da Pedagoteca! 🎉
           </p>
 
           <button
-            onClick={handleEntrarAgora}
+            onClick={() => {
+              (window as any).OneSignal?.isPushNotificationsEnabled?.().then((enabled: boolean) => {
+                if (!enabled) {
+                  (window as any).OneSignal.registerForPushNotifications().then(() => {
+                    console.log('✅ Inscrição manual concluída.')
+                  })
+                } else {
+                  console.log('🔔 Notificações já estão ativas.')
+                }
+              })
+            }}
             style={{
+              marginTop: 12,
               backgroundColor: '#10b981',
               color: 'white',
-              padding: '12px 24px',
-              fontSize: '16px',
-              borderRadius: '12px',
+              padding: '10px 20px',
               border: 'none',
-              cursor: 'pointer'
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '16px'
             }}
           >
-            🔔 Entrar agora e Ativar Notificações
+            🔔 Ativar Notificações
           </button>
         </>
       )}
     </div>
   )
 }
+
+
