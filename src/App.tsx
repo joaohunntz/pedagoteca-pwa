@@ -138,52 +138,54 @@ export default function App() {
       )}
 
       {installed && (
-        <button
-          onClick={handleEntrarAgora}
-          style={{
-            backgroundColor: '#f1f5f9',
-            color: '#1e293b',
-            padding: '12px 24px',
-            fontSize: '16px',
-            borderRadius: '12px',
-            border: '1px solid #cbd5e1',
-            cursor: 'pointer'
-          }}
-        >
-          Entrar agora
-        </button>
-      )}
+        <>
+          <button
+            onClick={handleEntrarAgora}
+            style={{
+              backgroundColor: '#f1f5f9',
+              color: '#1e293b',
+              padding: '12px 24px',
+              fontSize: '16px',
+              borderRadius: '12px',
+              border: '1px solid #cbd5e1',
+              cursor: 'pointer',
+              marginBottom: '16px'
+            }}
+          >
+            Entrar agora
+          </button>
 
-      {/* 💬 Frase personalizada + botão de notificação */}
-      <p style={{ color: '#475569', marginTop: 30, maxWidth: 320 }}>
-        Ative as Notificações clicando no botão abaixo e fique por dentro de todas as novidades da Pedagoteca! 🎉
-      </p>
+          <p style={{ color: '#475569', maxWidth: 320 }}>
+            Ative as Notificações clicando no botão abaixo e fique por dentro de todas as novidades da Pedagoteca! 🎉
+          </p>
 
-      <button
-        onClick={() => {
-          (window as any).OneSignal?.isPushNotificationsEnabled?.().then((enabled: boolean) => {
-            if (!enabled) {
-              (window as any).OneSignal.registerForPushNotifications().then(() => {
-                console.log('✅ Inscrição manual concluída.')
+          <button
+            onClick={() => {
+              (window as any).OneSignal?.isPushNotificationsEnabled?.().then((enabled: boolean) => {
+                if (!enabled) {
+                  (window as any).OneSignal.registerForPushNotifications().then(() => {
+                    console.log('✅ Inscrição manual concluída.')
+                  })
+                } else {
+                  console.log('🔔 Notificações já estão ativas.')
+                }
               })
-            } else {
-              console.log('🔔 Notificações já estão ativas.')
-            }
-          })
-        }}
-        style={{
-          marginTop: 12,
-          backgroundColor: '#10b981',
-          color: 'white',
-          padding: '10px 20px',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          fontSize: '16px'
-        }}
-      >
-        🔔 Ativar Notificações
-      </button>
+            }}
+            style={{
+              marginTop: 12,
+              backgroundColor: '#10b981',
+              color: 'white',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            🔔 Ativar Notificações
+          </button>
+        </>
+      )}
     </div>
   )
 }
