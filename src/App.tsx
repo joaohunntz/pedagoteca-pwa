@@ -5,6 +5,7 @@ export default function App() {
   const [installed, setInstalled] = useState(false)
   const [isIphone, setIsIphone] = useState(false)
   const [showGif, setShowGif] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase()
@@ -64,9 +65,10 @@ export default function App() {
   }
 
   const handleEntrarAgora = () => {
+    setLoading(true)
     setTimeout(() => {
-      window.location.href = 'https://app--pedagoteca-9b521c1a.base44.app/'
-    }, 2000)
+      window.location.href = '/iframe'
+    }, 1500)
   }
 
   return (
@@ -139,21 +141,27 @@ export default function App() {
 
       {installed && (
         <>
-          <button
-            onClick={handleEntrarAgora}
-            style={{
-              backgroundColor: '#f1f5f9',
-              color: '#1e293b',
-              padding: '12px 24px',
-              fontSize: '16px',
-              borderRadius: '12px',
-              border: '1px solid #cbd5e1',
-              cursor: 'pointer',
-              marginBottom: '16px'
-            }}
-          >
-            Entrar agora
-          </button>
+          {!loading ? (
+            <button
+              onClick={handleEntrarAgora}
+              style={{
+                backgroundColor: '#f1f5f9',
+                color: '#1e293b',
+                padding: '12px 24px',
+                fontSize: '16px',
+                borderRadius: '12px',
+                border: '1px solid #cbd5e1',
+                cursor: 'pointer',
+                marginBottom: '16px'
+              }}
+            >
+              Entrar agora
+            </button>
+          ) : (
+            <div style={{ marginBottom: '16px', fontSize: '16px', color: '#1e293b' }}>
+              ⏳ Carregando...
+            </div>
+          )}
 
           <p style={{ color: '#475569', maxWidth: 320 }}>
             Ative as Notificações clicando no botão abaixo e fique por dentro de todas as novidades da Pedagoteca! 🎉
@@ -189,5 +197,3 @@ export default function App() {
     </div>
   )
 }
-
-
